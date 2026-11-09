@@ -1,0 +1,121 @@
+{
+  "settings": {
+    "siteName": "Moda danes",
+    "tagline": "Modna revija v žepu",
+    "orderEmail": "",
+    "currency": "EUR",
+    "showPrices": true,
+    "ordersEnabled": true,
+    "orderNote": "",
+    "taglineEn": "Fashion show in your pocket",
+    "orderNoteEn": "",
+    "siteNameEn": "Fashion Today"
+  },
+  "companies": [
+    {
+      "id": "demo-atelier-0001",
+      "name": "Demo Atelier",
+      "logo": "",
+      "description": "Primer podjetja. Izbriši ga v Adminu in dodaj prava podjetja.",
+      "website": "",
+      "instagram": "",
+      "active": true,
+      "createdAt": 1762650000000,
+      "descriptionEn": "Sample company. Delete it in Admin and add your real companies."
+    }
+  ],
+  "items": [
+    {
+      "id": "demo-look-1",
+      "type": "image",
+      "companyId": "demo-atelier-0001",
+      "title": "Svilena obleka Aurora",
+      "sku": "DA-1001",
+      "price": 149.9,
+      "oldPrice": 189,
+      "description": "Primer opisa: lahkotna svilena obleka z ohlapnim krojem, primerna za poletne večere.",
+      "model": "Ana",
+      "category": "Obleka",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "imageUrl": "demo/look1.svg",
+      "videoUrl": "",
+      "vertical": true,
+      "focusY": 50,
+      "fit": "cover",
+      "inStock": true,
+      "active": true,
+      "createdAt": 1762650000003,
+      "section": "clothes",
+      "ages": [
+        "young",
+        "middle"
+      ],
+      "titleEn": "Aurora silk dress",
+      "descriptionEn": "Sample description: a light silk dress with a relaxed cut, perfect for summer evenings."
+    },
+    {
+      "id": "demo-look-2",
+      "type": "image",
+      "companyId": "demo-atelier-0001",
+      "title": "Lanena jakna Nord",
+      "sku": "DA-2002",
+      "price": 119,
+      "oldPrice": "",
+      "description": "Primer opisa: jakna iz organskega lanu, dve žepa, podloga iz bombaža.",
+      "model": "Maja",
+      "category": "Jakne in plašči",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "imageUrl": "demo/look2.svg",
+      "videoUrl": "",
+      "vertical": true,
+      "focusY": 50,
+      "fit": "cover",
+      "inStock": true,
+      "active": true,
+      "createdAt": 1762650000002,
+      "section": "clothes",
+      "ages": [
+        "middle",
+        "senior"
+      ],
+      "titleEn": "Nord linen jacket",
+      "descriptionEn": "Sample description: organic linen jacket, two pockets, cotton lining."
+    },
+    {
+      "id": "demo-look-3",
+      "type": "image",
+      "companyId": "demo-atelier-0001",
+      "title": "Komplet Terra",
+      "sku": "DA-3003",
+      "price": 89.5,
+      "oldPrice": "",
+      "description": "Primer opisa: komplet iz dveh delov v zemeljskih tonih.",
+      "model": "Luka",
+      "category": "Kompleti",
+      "sizes": [],
+      "imageUrl": "demo/look3.svg",
+      "videoUrl": "",
+      "vertical": true,
+      "focusY": 50,
+      "fit": "cover",
+      "inStock": true,
+      "active": true,
+      "createdAt": 1762650000001,
+      "section": "clothes",
+      "ages": [],
+      "titleEn": "Terra set",
+      "descriptionEn": "Sample description: two-piece set in earthy tones."
+    }
+  ],
+  "updatedAt": "2026-11-09T12:00:00.000Z"
+}
