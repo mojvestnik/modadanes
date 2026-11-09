@@ -45,7 +45,7 @@ async function gh(path, opts = {}, raw = false) {
     r = await fetch(`https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/${path}`, {
       ...opts,
       cache: 'no-store',
-      headers: { Authorization: `Bearer ${cfg.token}`, Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json', ...(opts.headers || {}) }
+      headers: { Authorization: `Bearer ${cfg.token}`, Accept: raw ? 'application/vnd.github.raw+json' : 'application/vnd.github+json', 'Content-Type': 'application/json', ...(opts.headers || {}) }
     });
   } catch (e) { throw new Error(`Povezava z GitHubom ni uspela (${e.message}). Preveri uporabnika »${cfg.owner}«, repozitorij »${cfg.repo}« in token.`); }
   if (!r.ok) { const t = await r.json().catch(() => ({})); throw new Error(`GitHub ${r.status}: ${t.message || r.statusText}`); }
@@ -53,12 +53,15 @@ async function gh(path, opts = {}, raw = false) {
 }
 const b64utf8 = s => b64(enc.encode(s));
 
-async function syncFromGithub() {
+async function syncFromGithub(silent = false) {
   try {
     const txt = await gh(`contents/${DATA_PATH}?ref=${encodeURIComponent(cfg.branch)}`, {}, true);
     FA.setData(JSON.parse(txt));
+    return true;
   } catch (e) {
-    if (!/404/.test(e.message)) FA.toast('Branje podatkov ni uspelo: ' + e.message, 5000);
+    if (!silent || !/404/.test(e.message)) FA.toast('Branje podatkov ni uspelo: ' + e.message, 5000);
+    setStatus('⚠ GitHub ni dosegljiv: ' + e.message, 'err');
+    return false;
   }
 }
 async function ghPut() {
@@ -177,11 +180,14 @@ function renderSetup() {
     btn.disabled = true; btn.textContent = 'Preverjam…';
     try {
       cfg = c; pass = f.pw.value;
-      const info = await gh('');
-      if (info.permissions && info.permissions.push === false) throw new Error('Token nima pravice pisanja (Contents: Read and write).');
+      // Ne blokiraj vstopa v admin, če brskalnik trenutno ne more doseči GitHub API-ja.
+      // Povezavo preverimo v ozadju in natančno pokažemo napako v statusu.
       await saveCfg();
-      await syncFromGithub();
       renderShell();
+      setStatus('Preverjam povezavo z GitHubom…', 'warn');
+      const ok = await syncFromGithub(true);
+      if (ok) setStatus(`✓ povezano z ${cfg.owner}/${cfg.repo}`, 'ok');
+      else FA.toast('Admin je odprt. GitHub povezavo lahko preveriš v Nastavitvah.', 5000);
     } catch (err) { cfg = null; pass = null; er.textContent = err.message; btn.disabled = false; btn.textContent = 'Shrani in vstopi'; }
   };
 }
@@ -199,8 +205,11 @@ function renderLogin() {
     er.textContent = ''; btn.disabled = true; btn.textContent = 'Preverjam…';
     try { cfg = await decryptJson(LS.get(KEY), pw); pass = pw; }
     catch { er.textContent = 'Napačno geslo.'; btn.disabled = false; btn.textContent = 'Vstopi'; return; }
-    await syncFromGithub();
     renderShell();
+    setStatus('Preverjam povezavo z GitHubom…', 'warn');
+    const ok = await syncFromGithub(true);
+    if (ok) setStatus(`✓ povezano z ${cfg.owner}/${cfg.repo}`, 'ok');
+    else FA.toast('Admin je odprt, vendar GitHub trenutno ni dosegljiv.', 5000);
   };
   $('#reset', root).onclick = () => { if (confirm('Izbrišem shranjen token in geslo na tej napravi? Podatki na GitHubu ostanejo.')) { LS.del(KEY); renderSetup(); } };
 }

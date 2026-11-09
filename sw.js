@@ -1,5 +1,5 @@
 /* Moda danes – service worker: najprej omrežje, ob izpadu predpomnilnik */
-const V = 'moda-danes-v7';
+const V = 'moda-danes-v8';
 const SHELL = ['./', 'index.html', 'style.css', 'app.js', 'admin.js', 'manifest.webmanifest', 'icon.svg'];
 
 self.addEventListener('install', e => {
